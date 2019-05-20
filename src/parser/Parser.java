@@ -10,9 +10,9 @@ import java.util.function.*;
 
 public class Parser {
     private static final Map<Character, BinaryOperator<Integer>> OPERATIONS = Map.of(
-            '+', Math::addExact,
-            '-', Math::subtractExact,
-            '*', Math::multiplyExact,
+            '+', Integer::sum,
+            '-', (x, y) -> x - y,
+            '*', (x, y) -> x * y,
             '/', (x, y) -> x / y,
             '%', (x, y) -> x % y,
             '>', (x, y) -> x > y ? 1 : 0,
