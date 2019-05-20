@@ -206,12 +206,14 @@ public class Parser {
         return result.evaluate(Collections.emptyMap(), functions);
     }
 
+    //  для удобства разрешен перенос строки последним символом
+
     public int parseProgram(String program) throws ParserException {
         return parseProgram(program.split("\n"));
     }
 
     public static void main(String[] args) {
-        try (var in = new BufferedReader(new FileReader("in"))) {
+        try (var in = new BufferedReader(new InputStreamReader(System.in))) {
             System.out.println(new Parser().parseProgram(
                     in.lines().toArray(String[]::new)));
         } catch (IOException e) {
