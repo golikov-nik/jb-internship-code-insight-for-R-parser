@@ -27,37 +27,41 @@ class TestGenerator {
         return x / y;
     }
 
-    TestGenerator(int seed) {
+    TestGenerator() {
+        random = new Random();
+    }
+
+    TestGenerator(long seed) {
         random = new Random(seed);
     }
 
-    StringAndInt randomNumber() {
+    ProgramWithResult randomNumber() {
         int result = random.nextInt();
-        return new StringAndInt(result + "", result);
+        return new ProgramWithResult(result + "", result);
     }
 
-    StringAndInt randomBinary(int depth) {
+    ProgramWithResult randomBinary(int depth) {
         if (depth == 0) {
             return randomNumber();
         }
         char operation = OPS.charAt(random.nextInt(OPS.length()));
-        StringAndInt left = randomBinary(depth - 1);
-        StringAndInt right = randomBinary(depth - 1);
+        ProgramWithResult left = randomBinary(depth - 1);
+        ProgramWithResult right = randomBinary(depth - 1);
         try {
-            return new StringAndInt(String.format("(%s%c%s)", left.expression, operation,
-                    right.expression), CHECKED_OPERATIONS.get(operation).apply(
+            return new ProgramWithResult(String.format("(%s%c%s)", left.program, operation,
+                    right.program), CHECKED_OPERATIONS.get(operation).apply(
                     left.result, right.result));
         } catch (ArithmeticException e) {
             return randomBinary(depth);
         }
     }
 
-    class StringAndInt {
-        String expression;
+    class ProgramWithResult {
+        String program;
         int result;
 
-        StringAndInt(String expression, int result) {
-            this.expression = expression;
+        ProgramWithResult(String program, int result) {
+            this.program = program;
             this.result = result;
         }
     }

@@ -136,6 +136,13 @@ public class Parser {
         return new IfExpression(condition, first, second);
     }
 
+    /*
+    для того, чтобы запоминать выражение и сохранять асимптотику линейной сделан
+    класс Substring, который вместо копирования подстроки в каждое выражение
+    сохраняет только ссылку на строку и индексы, а копию подстроки создает
+    только один раз (если произойдёт ошибка)
+     */
+
     private Expression parseBinaryExpression() throws SyntaxException {
         int start = ptr;
         expect('(');
@@ -206,11 +213,11 @@ public class Parser {
         return result.evaluate(Collections.emptyMap(), functions);
     }
 
-    //  для удобства разрешен перенос строки последним символом
-
     public int parseProgram(String program) throws ParserException {
-        return parseProgram(program.split("\n"));
+        return parseProgram(program.split("\n", -1));
     }
+
+    //  ввод с System.in требует перенос строки в конце
 
     public static void main(String[] args) {
         try (var in = new BufferedReader(new InputStreamReader(System.in))) {
