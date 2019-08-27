@@ -119,11 +119,6 @@ public class Parser {
                 new Identifier(identifier, line);
     }
 
-    /*
-    в грамматике круглые скобки, в примерах несколько раз фигурные,
-    так что я решил, что ошибка в грамматике
-     */
-
     private Expression parseIfExpression() throws SyntaxException {
         expect('[');
         Expression condition = parseExpression();
@@ -134,13 +129,6 @@ public class Parser {
         expect('}');
         return new IfExpression(condition, first, second);
     }
-
-    /*
-    для того, чтобы запоминать выражение и сохранять асимптотику линейной сделан
-    класс Substring, который вместо копирования подстроки в каждое выражение
-    сохраняет только ссылку на строку и индексы, а копию подстроки создает
-    только один раз (если произойдёт ошибка)
-     */
 
     private Expression parseBinaryExpression() throws SyntaxException {
         int start = ptr;
@@ -164,7 +152,6 @@ public class Parser {
         while (true) {
             String parameter = parseIdentifier();
             if (parameterSet.contains(parameter)) {
-                //  соответствует грамматике, но скорее синтаксическая ошибка
                 throw new SyntaxException();
             }
             result.add(parameter);
@@ -202,7 +189,6 @@ public class Parser {
             MyFunction f = parseFunction();
             expect(END);
             if (functions.put(f.name, f) != null) {
-                //  соответствует грамматике, но скорее синтаксическая ошибка
                 throw new SyntaxException();
             }
         }
